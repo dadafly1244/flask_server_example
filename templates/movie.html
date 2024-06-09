@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>영화 검색</h1>
+    <form action="{{ url_for('movie') }}">
+      <input type="text" name="query" />
+      <button type="submit">검색</button>
+    </form>
+
+    {% for movie in data %}
+    <!-- <p>{{ movie }}</p> -->
+    <p>영화 제목: {{ movie.movieNm }}</p>
+    <p>타입: {{ movie.typeNm }}</p>
+    {% if movie.directors %}
+    <p>감독: {{ movie.directors[0].get('peopleNm') }}</p>
+    {% endif %}
+    <hr />
+    {% endfor %}
+  </body>
+</html>

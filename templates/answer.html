@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <h1>박스오피스 검색</h1>
+    <p>20230501 형식으로 검색하세요.</p>
+    <form action="{{ url_for('answer') }}">
+      <input type="text" name="query" />
+      <button type="submit">검색</button>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">랭킹</th>
+          <th scope="col">영화명</th>
+          <th scope="col">영화개봉일</th>
+          <th scope="col">누적관객수</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for movie in data %}
+        <tr>
+          <th scope="row">{{ movie.rank }}</th>
+          <td>{{ movie.movieNm}}</td>
+          <td>{{ movie.openDt }}</td>
+          <td>{{ movie.audiAcc}}명</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
