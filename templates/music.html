@@ -196,7 +196,10 @@
         </div>
       </div>
 
-      <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5">
+      <div
+        class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5"
+        id="card_group"
+      >
         {% for song in data %}
         <div class="col">
           <div class="card h-100">
@@ -205,6 +208,14 @@
               <h5 class="card-title">{{ song.title }}</h5>
               <p class="card-text">{{ song.artist }}</p>
               <p class="card-text">추천 by {{ song.username }}</p>
+              <button
+                class="btn btn-primary"
+                name="delete_song"
+                data-id="{{song.id}}"
+                type="button"
+              >
+                삭제
+              </button>
             </div>
           </div>
         </div>
@@ -250,5 +261,46 @@
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      console.log(11);
+
+      // 삭제 버튼을 모두 선택합니다
+      const deleteButtons = document.querySelectorAll(
+        "button[name='delete_song']"
+      );
+
+      // 각 삭제 버튼에 이벤트 리스너를 추가합니다
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const id = button.dataset.id;
+          handleDeleteSong(id);
+        });
+      });
+
+      // 노래 삭제를 처리하는 함수
+      const handleDeleteSong = (id) => {
+        fetch("/music/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              // 삭제가 성공하면, 해당 노래 카드 요소를 제거합니다
+              const card = document
+                .querySelector(`button[data-id='${id}']`)
+                .closest(".card");
+              card.remove();
+            } else {
+              console.error("삭제 실패:", response.statusText);
+            }
+          })
+          .catch((error) => {
+            console.error("삭제 중 오류 발생:", error);
+          });
+      };
+    </script>
   </body>
 </html>

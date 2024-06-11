@@ -37,8 +37,8 @@ def lotto():
     random_lotto = generate_lotto_numbers()
 
     def count_common_elements(list1, list2):
-      common_elements = set(list1) & set(list2)
-      return len(common_elements)
+        common_elements = set(list1) & set(list2)
+        return len(common_elements)
 
     common_count = count_common_elements(lotto, random_lotto)
 
@@ -129,5 +129,15 @@ def music_create():
     db.session.commit()
     return redirect(url_for('render_music_filter', username=username_receive))
 
+@app.route("/music/delete", methods=["POST"])
+def music_delete():
+    song_have_to_delete = request.json.get("id")
+    song = Song.query.get(song_have_to_delete)
+    if song:
+        db.session.delete(song)
+        db.session.commit()
+        
+    song_list = Song.query.all()
+    return render_template('music.html', data=song_list)
 if __name__ == "__main__":
     app.run(debug=True)
